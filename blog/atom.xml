@@ -8,6 +8,21 @@
     <subtitle>RayenBou Blog</subtitle>
     <icon>https://rayenbou.github.io/img/favicon.ico</icon>
     <entry>
+        <title type="html"><![CDATA[Une intro]]></title>
+        <id>https://rayenbou.github.io/blog/Une-intro</id>
+        <link href="https://rayenbou.github.io/blog/Une-intro"/>
+        <updated>2024-07-10T14:11:50.000Z</updated>
+        <summary type="html"><![CDATA[Pourquoi Docusaurus ? Car si je crée un blog, il risque de se transformer en CRM avec environ 45 fonctionnalités. C'est mieux comme ça !]]></summary>
+        <content type="html"><![CDATA[<p>Pourquoi Docusaurus ? Car si je crée un blog, il risque de se transformer en CRM avec environ 45 fonctionnalités. C'est mieux comme ça !</p>
+<p>Je suis Rayen, un développeur/nerd enthousiaste d'une multitude de sujets, et ce blog a vocation à réunir les idées et sujets que je parcours dans mes projets et/ou dans les cours que je donne.</p>
+<p>Il ne s'agit que d'une grande piscine à réflexion. Certains articles seront en anglais et d'autres en français.</p>]]></content>
+        <author>
+            <name>Boumaza Rayen</name>
+            <uri>https://github.com/RayenBou</uri>
+        </author>
+        <category label="intro" term="intro"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Upload de fichier - Public ou non public sur Symfony ?]]></title>
         <id>https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony</id>
         <link href="https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony"/>
@@ -76,20 +91,5 @@ Pour le reste , ca ira dans le dossier <code>/var</code> !</p>
         </author>
         <category label="symfony" term="symfony"/>
         <category label="security" term="security"/>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Une intro]]></title>
-        <id>https://rayenbou.github.io/blog/Une-intro</id>
-        <link href="https://rayenbou.github.io/blog/Une-intro"/>
-        <updated>2024-07-10T14:11:50.000Z</updated>
-        <summary type="html"><![CDATA[Pourquoi Docusaurus ? Car si je crée un blog, il risque de se transformer en CRM avec environ 45 fonctionnalités. C'est mieux comme ça !]]></summary>
-        <content type="html"><![CDATA[<p>Pourquoi Docusaurus ? Car si je crée un blog, il risque de se transformer en CRM avec environ 45 fonctionnalités. C'est mieux comme ça !</p>
-<p>Je suis Rayen, un développeur/nerd enthousiaste d'une multitude de sujets, et ce blog a vocation à réunir les idées et sujets que je parcours dans mes projets et/ou dans les cours que je donne.</p>
-<p>Il ne s'agit que d'une grande piscine à réflexion. Certains articles seront en anglais et d'autres en français.</p>]]></content>
-        <author>
-            <name>Boumaza Rayen</name>
-            <uri>https://github.com/RayenBou</uri>
-        </author>
-        <category label="intro" term="intro"/>
     </entry>
 </feed>
