@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fr" dir="ltr" class="blog-wrapper blog-post-page plugin-blog plugin-id-default" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.4.0">
+<title data-rh="true">Cpanel - Une api utilisable même en accès user | RayenBou</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://rayenbou.github.io/fr/img/logo.png"><meta data-rh="true" name="twitter:image" content="https://rayenbou.github.io/fr/img/logo.png"><meta data-rh="true" property="og:url" content="https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user"><meta data-rh="true" property="og:locale" content="fr"><meta data-rh="true" property="og:locale:alternate" content="en"><meta data-rh="true" name="docusaurus_locale" content="fr"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="fr"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Cpanel - Une api utilisable même en accès user | RayenBou"><meta data-rh="true" name="description" content="Est-il possible de créer un sous-domaine directement depuis une application PHP/Symfony sans l&#x27;accès Root au serveur ?"><meta data-rh="true" property="og:description" content="Est-il possible de créer un sous-domaine directement depuis une application PHP/Symfony sans l&#x27;accès Root au serveur ?"><meta data-rh="true" property="og:type" content="article"><meta data-rh="true" property="article:published_time" content="2024-07-10T15:28:41.853Z"><meta data-rh="true" property="article:author" content="https://github.com/RayenBou"><meta data-rh="true" property="article:tag" content="hebergement,cpanel,symfony"><link data-rh="true" rel="icon" href="/fr/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user"><link data-rh="true" rel="alternate" href="https://rayenbou.github.io/blog/une-api-cpanel-utilisable-meme-en-acces-user" hreflang="en"><link data-rh="true" rel="alternate" href="https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user" hreflang="fr"><link data-rh="true" rel="alternate" href="https://rayenbou.github.io/blog/une-api-cpanel-utilisable-meme-en-acces-user" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user","mainEntityOfPage":"https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user","url":"https://rayenbou.github.io/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user","headline":"Cpanel - Une api utilisable même en accès user","name":"Cpanel - Une api utilisable même en accès user","description":"Est-il possible de créer un sous-domaine directement depuis une application PHP/Symfony sans l'accès Root au serveur ?","datePublished":"2024-07-10T15:28:41.853Z","author":{"@type":"Person","name":"Boumaza Rayen","description":"Développeur PHP/Symfony | Formateur Passionné | Geek à Plein Temps","url":"https://github.com/RayenBou","image":"https://github.com/RayenBou.png"},"keywords":[],"isPartOf":{"@type":"Blog","@id":"https://rayenbou.github.io/fr/blog","name":"Blog"}}</script><link rel="alternate" type="application/rss+xml" href="/fr/blog/rss.xml" title="RayenBou RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/fr/blog/atom.xml" title="RayenBou Atom Feed"><link rel="stylesheet" href="/fr/assets/css/styles.7409cb02.css">
+<script src="/fr/assets/js/runtime~main.af12b3ff.js" defer="defer"></script>
+<script src="/fr/assets/js/main.61be253d.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Aller au contenu principal"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Aller au contenu principal</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Ouvrir/fermer la barre de navigation" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/fr/"><div class="navbar__logo"><img src="/fr/img/logo.png" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/fr/img/logo.png" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Rayen Boumaza (RayenBou)</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/fr/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://www.linkedin.com/in/rayen-boumaza/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">LinkedIn<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://github.com/RayenBou" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Basculer entre le mode sombre et clair (actuellement mode clair)" aria-label="Basculer entre le mode sombre et clair (actuellement mode clair)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="container margin-vert--lg"><div class="row"><aside class="col col--3"><nav class="sidebar_re4s thin-scrollbar" aria-label="Navigation article de blog récent"><div class="sidebarItemTitle_pO2u margin-bottom--md">Posts</div><ul class="sidebarItemList_Yudw clean-list"><li class="sidebarItem__DBe"><a aria-current="page" class="sidebarItemLink_mo7H sidebarItemLinkActive_I1ZP" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user">Cpanel - Une api utilisable même en accès user</a></li><li class="sidebarItem__DBe"><a class="sidebarItemLink_mo7H" href="/fr/blog/upload-de-fichier-public-ou-non-public-symfony">Upload de fichier - Public ou non public sur Symfony ?</a></li></ul></nav></aside><main class="col col--7"><article><header><h1 class="title_f1Hy">Cpanel - Une api utilisable même en accès user</h1><div class="container_mt6G margin-vert--md"><time datetime="2024-07-10T15:28:41.853Z">10 juillet 2024</time> · <!-- -->9 minutes de lecture</div><div class="margin-top--md margin-bottom--sm row"><div class="col col--6 authorCol_Hf19"><div class="avatar margin-bottom--sm"><a href="https://github.com/RayenBou" target="_blank" rel="noopener noreferrer" class="avatar__photo-link"><img class="avatar__photo" src="https://github.com/RayenBou.png" alt="Boumaza Rayen"></a><div class="avatar__intro"><div class="avatar__name"><a href="https://github.com/RayenBou" target="_blank" rel="noopener noreferrer"><span>Boumaza Rayen</span></a></div><small class="avatar__subtitle">Développeur PHP/Symfony | Formateur Passionné | Geek à Plein Temps</small></div></div></div></div></header><div id="__blog-post-container" class="markdown"><h3 class="anchor anchorWithStickyNavbar_LWe7" id="est-il-possible-de-créer-un-sous-domaine-directement-depuis-une-application-phpsymfony-sans-laccès-root-au-serveur-"><em><strong>Est-il possible de créer un sous-domaine directement depuis une application PHP/Symfony sans l&#x27;accès Root au serveur ?</strong></em><a class="hash-link" aria-label="Lien direct vers est-il-possible-de-créer-un-sous-domaine-directement-depuis-une-application-phpsymfony-sans-laccès-root-au-serveur-" title="Lien direct vers est-il-possible-de-créer-un-sous-domaine-directement-depuis-une-application-phpsymfony-sans-laccès-root-au-serveur-" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#est-il-possible-de-créer-un-sous-domaine-directement-depuis-une-application-phpsymfony-sans-laccès-root-au-serveur-">​</a></h3>
+<p>La réponse est oui !</p>
+<p>J&#x27;ai eu envie de créer un système de staging il y a quelque temps pour plusieurs raisons :</p>
+<ul>
+<li>Montrer aux clients l&#x27;avancement de leurs projets de manière rapide tout en restant sur mon hébergement.</li>
+<li>Par flemme de passer à chaque fois par un terminal (j&#x27;aimerais tout faire en un clic).</li>
+<li>Créer un système de blog gratuit format CMS dont la mise en production est entièrement automatisée par la suite.
+<br>
+<!-- -->\</li>
+</ul>
+<p>La contrainte principale a été de ne pas céder à la facilité car une fonctionnalité comme celle-ci est bien plus facile sur un serveur privé que sur un mutualisé sans accès root.
+<br>
+<br>
+<strong>Par chance, sur mon hébergement, il y a Cpanel d&#x27;installé !</strong></p>
+<p>Non seulement Cpanel possède une API permettant quasiment toutes les actions permises sur l&#x27;interface qu&#x27;on a l&#x27;habitude de voir, mais elle est également écrite en Perl <strong>ET PHP</strong>.</p>
+<hr>
+<p><br>
+<img decoding="async" loading="lazy" alt="Cpanel Delete Email" src="/fr/assets/images/cpanel-8ef5f40c88c7789c57aef4b32b5bae82.png" width="781" height="328" class="img_ev3q">
+<br>
+<!-- -->Par exemple, la suppression d&#x27;un compte mail equivaux à:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">uapi --output=jsonpretty \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  --user=username \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  Email \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  delete_pop \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  email=&#x27;user@domain.com&#x27;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="création-dun-sous-domaine"><em><strong>Création d&#x27;un sous-domaine</strong></em><a class="hash-link" aria-label="Lien direct vers création-dun-sous-domaine" title="Lien direct vers création-dun-sous-domaine" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#création-dun-sous-domaine">​</a></h2>
+<p>Mais ce qui nous intereresse, c&#x27;est surtout <a href="https://api.docs.cpanel.net/openapi/cpanel/operation/addsubdomain/" target="_blank" rel="noopener noreferrer">La création d&#x27;un sous domaine</a> !</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">uapi --output=jsonpretty \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  --user=username \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  SubDomain \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  addsubdomain \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  domain=&#x27;subdomain&#x27; \</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  rootdomain=&#x27;example.com&#x27;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Et la documentation est très pratique car elle nous offre directement le code PHP à intégrer au projet.</p>
+<div class="language-php codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-php codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">//--------------------------------------------------------------------------------------</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Instructions:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">//--------------------------------------------------------------------------------------</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// &lt;theme-name&gt; is the theme assigned to cPanel account.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 1) cd /usr/local/cpanel/base/frontend/&lt;theme_name&gt;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 2) mkdir api_examples</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 3) cd api_examples</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 4) create a file SubDomain_addsubdomain.live.php and put this code into that file.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 5) In your browser login to a cPanel account.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 6) Manually change the url from: .../frontend/&lt;theme_name&gt;/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">//    to .../frontend/&lt;theme_name&gt;/api_examples/SubDomain_addsubdomain.live.php</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">//--------------------------------------------------------------------------------------</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Instantiate the CPANEL object.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">require_once &quot;/usr/local/cpanel/php/cpanel.php&quot;;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Print the header</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">header(&#x27;Content-Type: text/plain&#x27;);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Connect to cPanel - only do this once.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$cpanel = new CPANEL();</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Call the API</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$response = $cpanel-&gt;uapi(</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    &#x27;SubDomain&#x27;,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    &#x27;addsubdomain&#x27;,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    array (</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        &#x27;domain&#x27; =&gt; &#x27;subdomain&#x27;,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        &#x27;rootdomain&#x27; =&gt; &#x27;example.com&#x27;,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    )</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Handle the response</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">if ($response[&#x27;cpanelresult&#x27;][&#x27;result&#x27;][&#x27;status&#x27;]) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    $data = $response[&#x27;cpanelresult&#x27;][&#x27;result&#x27;][&#x27;data&#x27;];</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    // Do something with the $data</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    // So you can see the data shape we print it here.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    print to_json($data);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">else {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    // Report errors:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    print to_json($response[&#x27;cpanelresult&#x27;][&#x27;result&#x27;][&#x27;errors&#x27;]);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Disconnect from cPanel - only do this once.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$cpanel-&gt;end();</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">//--------------------------------------------------------------------------------------</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// Helper function to convert a PHP value to html printable json</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">//--------------------------------------------------------------------------------------</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">function to_json($data) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    return json_encode($data, JSON_PRETTY_PRINT);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="comment-tout-ça-fonctionne-"><em><strong>Comment tout ça fonctionne ?</strong></em><a class="hash-link" aria-label="Lien direct vers comment-tout-ça-fonctionne-" title="Lien direct vers comment-tout-ça-fonctionne-" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#comment-tout-ça-fonctionne-">​</a></h2>
+<p>Cpanel installé sur le serveur mutualisé permet à l&#x27;utilisateur d&#x27;effectuer toutes les actions qu&#x27;il souhaite.
+L&#x27;interface Cpanel communique à travers l&#x27;API pour exécuter différentes actions.</p>
+<p>Beaucoup de paramètres entrent en compte dans le cas d&#x27;un hébergement mutualisé car il y a un cloisonnement des autorisations, de la portée des actions, et des possibilités de toucher à des éléments essentiels au fonctionnement de l&#x27;hébergement.</p>
+<p>J&#x27;ai bien évidemment demandé au service technique de l&#x27;hébergeur, avant d&#x27;effectuer quoi que ce soit, si l&#x27;utilisation de l&#x27;API n&#x27;allait pas à l&#x27;encontre de leurs conditions d&#x27;utilisation</p>
+<p><strong>Il y à deux choix qui s&#x27;offrent à nous:</strong></p>
+<ul>
+<li>Communiquer avec l&#x27;Api en PHP.</li>
+</ul>
+<p><em>Ce qui donnerait:</em>
+<br>
+<strong>Ma-requete-en-PHP -&gt; UAPI -&gt; CPANEL.</strong></p>
+<ul>
+<li>Utiliser les commandes terminals disponibles.</li>
+</ul>
+<p><em>Ce qui donnerait:</em>
+<br>
+<strong>Mon code PHP exécutant une commande -&gt; Terminal SSH -&gt; UAPI -&gt; CPANEL</strong></p>
+<p>S&#x27;agissant la d&#x27;un Proof of Concept, aussi étonnant que cela puisse paraître, la seconde solution a été la plus intuitive.</p>
+<p>J&#x27;ai choisi d&#x27;utiliser les commandes terminal, mais avec l&#x27;idée en tête d&#x27;utiliser par la suite l&#x27;API en PHP quand j&#x27;aurais éliminé tous les éléments inconnus de la fonctionnalité.
+J&#x27;ai également choisi de ne pas utiliser le <a href="https://symfony.com/doc/current/components/process.html" target="_blank" rel="noopener noreferrer">Process Component</a> de Symfony car il alourdissait mes essais.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="clonage-du-repository-git--installation-des-dépendances-staging"><em><strong>Clonage du repository Git + Installation des dépendances (Staging)</strong></em><a class="hash-link" aria-label="Lien direct vers clonage-du-repository-git--installation-des-dépendances-staging" title="Lien direct vers clonage-du-repository-git--installation-des-dépendances-staging" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#clonage-du-repository-git--installation-des-dépendances-staging">​</a></h2>
+<p>C&#x27;est bien beau d&#x27;avoir un sous-domaine, maintenant il faut l&#x27;utiliser !</p>
+<p>Je me suis créé un petit projet Symfony qui servira de test pour mon staging (cf. : Mon premier objectif).
+L&#x27;idée est d&#x27;avoir une interface à la manière d&#x27;Heroku où j&#x27;aurais seulement à indiquer l&#x27;URL de mon repository Git.</p>
+<p>En utilisant les commandes shell, j&#x27;ai réussi à me débrouiller pour cloner le repo puis installer les dépendances.
+<strong>La méthode qui permet le clonage du repository:</strong></p>
+<div class="language-php codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-php codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">    /**</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * Clones a repository using Git.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     *</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $username The username for authentication.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $token The token for authentication.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $repositoryUrl The URL of the repository to clone.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $projectRoot The root directory where the repository will be cloned.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @return JsonResponse The response containing the output of the clone command.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @throws InvalidArgumentException If any of the required parameters is empty.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @throws JsonException If the clone command fails.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     */</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    public function cloneRepo(string $username, string $token, string $repositoryUrl, string $projectRoot): JsonResponse</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        if (empty($username) || empty($token) || empty($repositoryUrl) || empty($projectRoot)) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            throw new InvalidArgumentException(&#x27;Username, token, repository URL or project root is null&#x27;);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        $repositoryUrl = str_replace(&#x27;https://&#x27;, &#x27;&#x27;, $repositoryUrl);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        $command = sprintf(&#x27;git clone https://%s:%s@%s&#x27;, escapeshellarg($username), escapeshellarg($token), escapeshellarg($repositoryUrl));</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        exec(&quot;cd &quot; . escapeshellarg($projectRoot) . &quot; &amp;&amp; $command 2&gt;&amp;1&quot;, $output, $returnVar);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        if ($returnVar !== 0) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            throw new JsonException(implode(&quot;\n&quot;, $output));</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        return new JsonResponse($output);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    }</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p><strong>Puis une methode pour installer les dependances avec composer:</strong></p>
+<div class="language-php codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-php codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">    /**</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * Install dependencies using Composer.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     *</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $homeDir The home directory.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @param string $projectDir The project directory.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @return JsonResponse The JSON response containing the output of the Composer installation.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @throws InvalidArgumentException If the home directory or project directory is empty.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     * @throws JsonException If the Composer installation fails.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">     */</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    public function installDependencies(string $homeDir, string $projectDir): JsonResponse</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        if (empty($homeDir) || empty($projectDir)) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            throw new InvalidArgumentException(&#x27;Home directory or project directory is null&#x27;);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        putenv(&quot;HOME=&quot; . escapeshellarg($homeDir));</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        putenv(&quot;COMPOSER_HOME=&quot; . escapeshellarg($projectDir));</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        $composerInstallCommand = &quot;cd &quot; . escapeshellarg($projectDir) . &quot; &amp;&amp; &quot; . escapeshellarg(self::COMPOSER_ROOT) . &quot; install 2&gt;&amp;1&quot;;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        exec($composerInstallCommand, $output, $returnVar);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        if ($returnVar !== 0) {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            throw new JsonException(implode(&quot;\n&quot;, $output));</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        return new JsonResponse($output);</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    }</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="et-pour-le-cms-"><em><strong>Et pour le CMS ?</strong></em><a class="hash-link" aria-label="Lien direct vers et-pour-le-cms-" title="Lien direct vers et-pour-le-cms-" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#et-pour-le-cms-">​</a></h2>
+<p>Bien que je puisse créer une sécurité suffisante pour éviter la plupart des attaques potentielles depuis l&#x27;app d&#x27;un client,
+le fait que ce système se trouve sur un hébergement mutualisé rend le cloisonnement beaucoup plus complexe.</p>
+<p>L&#x27;idée est donc de créer des applications indépendantes pour chaque nouveau blog d&#x27;utilisateur. Il faut également réfléchir à la limitation du nombre de pages, du poids total de l&#x27;app, du type de contenu uploadable, etc.</p>
+<p>Il existe maintes solutions alternatives possibles pour obtenir une fonctionnalité similaire.</p>
+<p>Cependant, pour le défi, je tenterai de faire avec les contraintes présentées, dans un prochain article !</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="les-actions-de-lapi-executable-en-terminal-en-cadeau">Les actions de l&#x27;api executable en Terminal en cadeau<a class="hash-link" aria-label="Lien direct vers Les actions de l&#x27;api executable en Terminal en cadeau" title="Lien direct vers Les actions de l&#x27;api executable en Terminal en cadeau" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#les-actions-de-lapi-executable-en-terminal-en-cadeau">​</a></h2>
+<p><a href="https://api.docs.cpanel.net/cpanel/introduction/" target="_blank" rel="noopener noreferrer">LA DOC DE L&#x27;API CPANEL COMPLETE ICI <!-- -->:D</a></p>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary>Et les fonctions</summary><div><div class="collapsibleContent_i85q"><p>The following calls are available:<br>
+<br>
+<!-- -->AccountEnhancements::has_enhancement<br>
+<!-- -->AccountEnhancements::list<br>
+<!-- -->AuditLog::get_api_log<br>
+<!-- -->Backup::fullbackup_to_ftp<br>
+<!-- -->Backup::fullbackup_to_homedir<br>
+<!-- -->Backup::fullbackup_to_scp_with_key<br>
+<!-- -->Backup::fullbackup_to_scp_with_password<br>
+<!-- -->Backup::list_backups<br>
+<!-- -->Backup::restore_databases<br>
+<!-- -->Backup::restore_email_filters<br>
+<!-- -->Backup::restore_email_forwarders<br>
+<!-- -->Backup::restore_files<br>
+<!-- -->Bandwidth::get_enabled_protocols<br>
+<!-- -->Bandwidth::get_retention_periods<br>
+<!-- -->Bandwidth::query<br>
+<!-- -->Batch::strict<br>
+<!-- -->BlockIP::add_ip<br>
+<!-- -->BlockIP::remove_ip<br>
+<!-- -->BoxTrapper::blacklist_messages<br>
+<!-- -->BoxTrapper::delete_messages<br>
+<!-- -->BoxTrapper::deliver_messages<br>
+<!-- -->BoxTrapper::get_allowlist<br>
+<!-- -->BoxTrapper::get_blocklist<br>
+<!-- -->BoxTrapper::get_configuration<br>
+<!-- -->BoxTrapper::get_email_template<br>
+<!-- -->BoxTrapper::get_forwarders<br>
+<!-- -->BoxTrapper::get_ignorelist<br>
+<!-- -->BoxTrapper::get_log<br>
+<!-- -->BoxTrapper::get_message<br>
+<!-- -->BoxTrapper::get_status<br>
+<!-- -->BoxTrapper::ignore_messages<br>
+<!-- -->BoxTrapper::list_email_templates<br>
+<!-- -->BoxTrapper::list_queued_messages<br>
+<!-- -->BoxTrapper::process_messages<br>
+<!-- -->BoxTrapper::reset_email_template<br>
+<!-- -->BoxTrapper::save_configuration<br>
+<!-- -->BoxTrapper::save_email_template<br>
+<!-- -->BoxTrapper::set_allowlist<br>
+<!-- -->BoxTrapper::set_blocklist<br>
+<!-- -->BoxTrapper::set_forwarders<br>
+<!-- -->BoxTrapper::set_ignorelist<br>
+<!-- -->BoxTrapper::set_status<br>
+<!-- -->BoxTrapper::whitelist_messages<br>
+<!-- -->Branding::get_application_information<br>
+<!-- -->Branding::get_applications<br>
+<!-- -->Branding::get_available_applications<br>
+<!-- -->Branding::get_information_for_applications<br>
+<!-- -->Branding::include<br>
+<!-- -->CCS::add_delegate<br>
+<!-- -->CCS::list_delegates<br>
+<!-- -->CCS::list_users<br>
+<!-- -->CCS::remove_delegate<br>
+<!-- -->CCS::update_delegate<br>
+<!-- -->CSVImport::doimport<br>
+<!-- -->CacheBuster::read<br>
+<!-- -->CacheBuster::update<br>
+<!-- -->Chkservd::get_exim_ports<br>
+<!-- -->Chkservd::get_exim_ports_ssl<br>
+<!-- -->Chrome::get_dom<br>
+<!-- -->ClamScanner::check_disinfection_status<br>
+<!-- -->ClamScanner::disinfect_files<br>
+<!-- -->ClamScanner::get_scan_paths<br>
+<!-- -->ClamScanner::get_scan_status<br>
+<!-- -->ClamScanner::list_infected_files<br>
+<!-- -->ClamScanner::start_scan<br>
+<!-- -->ContactInformation::set_email_addresses<br>
+<!-- -->ContactInformation::unset_email_addresses<br>
+<!-- -->Contactus::is_enabled<br>
+<!-- -->DAV::disable_shared_global_addressbook<br>
+<!-- -->DAV::enable_shared_global_addressbook<br>
+<!-- -->DAV::get_calendar_contacts_config<br>
+<!-- -->DAV::has_shared_global_addressbook<br>
+<!-- -->DAV::is_ccs_enabled<br>
+<!-- -->DAV::is_dav_service_enabled<br>
+<!-- -->DAV::is_horde_enabled<br>
+<!-- -->DCV::check_domains_via_dns<br>
+<!-- -->DCV::check_domains_via_http<br>
+<!-- -->DCV::ensure_domains_can_pass_dcv<br>
+<!-- -->DNS::ensure_domains_reside_only_locally<br>
+<!-- -->DNS::has_local_authority<br>
+<!-- -->DNS::lookup<br>
+<!-- -->DNS::mass_edit_zone<br>
+<!-- -->DNS::parse_zone<br>
+<!-- -->DNS::swap_ip_in_zones<br>
+<!-- -->DNSSEC::activate_zone_key<br>
+<!-- -->DNSSEC::add_zone_key<br>
+<!-- -->DNSSEC::deactivate_zone_key<br>
+<!-- -->DNSSEC::disable_dnssec<br>
+<!-- -->DNSSEC::enable_dnssec<br>
+<!-- -->DNSSEC::export_zone_dnskey<br>
+<!-- -->DNSSEC::export_zone_key<br>
+<!-- -->DNSSEC::fetch_ds_records<br>
+<!-- -->DNSSEC::import_zone_key<br>
+<!-- -->DNSSEC::remove_zone_key<br>
+<!-- -->DNSSEC::set_nsec3<br>
+<!-- -->DNSSEC::unset_nsec3<br>
+<!-- -->DirectoryIndexes::get_indexing<br>
+<!-- -->DirectoryIndexes::list_directories<br>
+<!-- -->DirectoryIndexes::set_indexing<br>
+<!-- -->DirectoryPrivacy::add_user<br>
+<!-- -->DirectoryPrivacy::configure_directory_protection<br>
+<!-- -->DirectoryPrivacy::delete_user<br>
+<!-- -->DirectoryPrivacy::is_directory_protected<br>
+<!-- -->DirectoryPrivacy::list_directories<br>
+<!-- -->DirectoryPrivacy::list_users<br>
+<!-- -->DirectoryProtection::list_directories<br>
+<!-- -->DomainInfo::domains_data<br>
+<!-- -->DomainInfo::list_domains<br>
+<!-- -->DomainInfo::main_domain_builtin_subdomain_aliases<br>
+<!-- -->DomainInfo::single_domain_data<br>
+<!-- -->DynamicDNS::create<br>
+<!-- -->DynamicDNS::delete<br>
+<!-- -->DynamicDNS::list<br>
+<!-- -->DynamicDNS::recreate<br>
+<!-- -->DynamicDNS::set_description<br>
+<!-- -->EA4::get_php_recommendations<br>
+<!-- -->EA4::get_recommendations<br>
+<!-- -->Email::account_name<br>
+<!-- -->Email::add_auto_responder<br>
+<!-- -->Email::add_domain_forwarder<br>
+<!-- -->Email::add_forwarder<br>
+<!-- -->Email::add_list<br>
+<!-- -->Email::add_mailman_delegates<br>
+<!-- -->Email::add_mx<br>
+<!-- -->Email::add_pop<br>
+<!-- -->Email::add_spam_filter<br>
+<!-- -->Email::browse_mailbox<br>
+<!-- -->Email::change_mx<br>
+<!-- -->Email::check_fastmail<br>
+<!-- -->Email::count_auto_responders<br>
+<!-- -->Email::count_filters<br>
+<!-- -->Email::count_forwarders<br>
+<!-- -->Email::count_lists<br>
+<!-- -->Email::count_pops<br>
+<!-- -->Email::delete_auto_responder<br>
+<!-- -->Email::delete_domain_forwarder<br>
+<!-- -->Email::delete_filter<br>
+<!-- -->Email::delete_forwarder<br>
+<!-- -->Email::delete_held_messages<br>
+<!-- -->Email::delete_list<br>
+<!-- -->Email::delete_mx<br>
+<!-- -->Email::delete_pop<br>
+<!-- -->Email::disable_filter<br>
+<!-- -->Email::disable_mailbox_autocreate<br>
+<!-- -->Email::disable_spam_assassin<br>
+<!-- -->Email::disable_spam_autodelete<br>
+<!-- -->Email::disable_spam_box<br>
+<!-- -->Email::dispatch_client_settings<br>
+<!-- -->Email::edit_pop_quota<br>
+<!-- -->Email::enable_filter<br>
+<!-- -->Email::enable_mailbox_autocreate<br>
+<!-- -->Email::enable_spam_assassin<br>
+<!-- -->Email::enable_spam_box<br>
+<!-- -->Email::fetch_charmaps<br>
+<!-- -->Email::fts_rescan_mailbox<br>
+<!-- -->Email::generate_mailman_otp<br>
+<!-- -->Email::get_auto_responder<br>
+<!-- -->Email::get_charsets<br>
+<!-- -->Email::get_client_settings<br>
+<!-- -->Email::get_default_email_quota<br>
+<!-- -->Email::get_default_email_quota_mib<br>
+<!-- -->Email::get_disk_usage<br>
+<!-- -->Email::get_filter<br>
+<!-- -->Email::get_held_message_count<br>
+<!-- -->Email::get_lists_total_disk_usage<br>
+<!-- -->Email::get_mailbox_autocreate<br>
+<!-- -->Email::get_mailman_delegates<br>
+<!-- -->Email::get_main_account_disk_usage<br>
+<!-- -->Email::get_main_account_disk_usage_bytes<br>
+<!-- -->Email::get_max_email_quota<br>
+<!-- -->Email::get_max_email_quota_mib<br>
+<!-- -->Email::get_pop_quota<br>
+<!-- -->Email::get_spam_settings<br>
+<!-- -->Email::get_webmail_settings<br>
+<!-- -->Email::has_delegated_mailman_lists<br>
+<!-- -->Email::has_plaintext_authentication<br>
+<!-- -->Email::hold_outgoing<br>
+<!-- -->Email::list_auto_responders<br>
+<!-- -->Email::list_default_address<br>
+<!-- -->Email::list_domain_forwarders<br>
+<!-- -->Email::list_filters<br>
+<!-- -->Email::list_filters_backups<br>
+<!-- -->Email::list_forwarders<br>
+<!-- -->Email::list_forwarders_backups<br>
+<!-- -->Email::list_lists<br>
+<!-- -->Email::list_mail_domains<br>
+<!-- -->Email::list_mxs<br>
+<!-- -->Email::list_pops<br>
+<!-- -->Email::list_pops_with_disk<br>
+<!-- -->Email::list_system_filter_info<br>
+<!-- -->Email::passwd_list<br>
+<!-- -->Email::passwd_pop<br>
+<!-- -->Email::release_outgoing<br>
+<!-- -->Email::remove_mailman_delegates<br>
+<!-- -->Email::reorder_filters<br>
+<!-- -->Email::set_always_accept<br>
+<!-- -->Email::set_default_address<br>
+<!-- -->Email::set_list_privacy_options<br>
+<!-- -->Email::set_manual_mx_redirects<br>
+<!-- -->Email::stats_db_status<br>
+<!-- -->Email::store_filter<br>
+<!-- -->Email::suspend_incoming<br>
+<!-- -->Email::suspend_login<br>
+<!-- -->Email::suspend_outgoing<br>
+<!-- -->Email::terminate_mailbox_sessions<br>
+<!-- -->Email::trace_delivery<br>
+<!-- -->Email::trace_filter<br>
+<!-- -->Email::unset_manual_mx_redirects<br>
+<!-- -->Email::unsuspend_incoming<br>
+<!-- -->Email::unsuspend_login<br>
+<!-- -->Email::unsuspend_outgoing<br>
+<!-- -->Email::verify_password<br>
+<!-- -->EmailAuth::disable_dkim<br>
+<!-- -->EmailAuth::enable_dkim<br>
+<!-- -->EmailAuth::ensure_dkim_keys_exist<br>
+<!-- -->EmailAuth::fetch_dkim_private_keys<br>
+<!-- -->EmailAuth::install_dkim_private_keys<br>
+<!-- -->EmailAuth::install_spf_records<br>
+<!-- -->EmailAuth::validate_current_dkims<br>
+<!-- -->EmailAuth::validate_current_ptrs<br>
+<!-- -->EmailAuth::validate_current_spfs<br>
+<!-- -->ExternalAuthentication::add_authn_link<br>
+<!-- -->ExternalAuthentication::configured_modules<br>
+<!-- -->ExternalAuthentication::get_authn_links<br>
+<!-- -->ExternalAuthentication::has_external_auth_modules_configured<br>
+<!-- -->ExternalAuthentication::remove_authn_link<br>
+<!-- -->Features::get_feature_metadata<br>
+<!-- -->Features::has_feature<br>
+<!-- -->Features::list_features<br>
+<!-- -->Fileman::autocompletedir<br>
+<!-- -->Fileman::empty_trash<br>
+<!-- -->Fileman::get_file_content<br>
+<!-- -->Fileman::get_file_information<br>
+<!-- -->Fileman::list_files<br>
+<!-- -->Fileman::save_file_content<br>
+<!-- -->Fileman::transcode<br>
+<!-- -->Fileman::upload_files<br>
+<!-- -->Ftp::add_ftp<br>
+<!-- -->Ftp::allows_anonymous_ftp<br>
+<!-- -->Ftp::allows_anonymous_ftp_incoming<br>
+<!-- -->Ftp::delete_ftp<br>
+<!-- -->Ftp::ftp_exists<br>
+<!-- -->Ftp::get_ftp_daemon_info<br>
+<!-- -->Ftp::get_port<br>
+<!-- -->Ftp::get_quota<br>
+<!-- -->Ftp::get_welcome_message<br>
+<!-- -->Ftp::kill_session<br>
+<!-- -->Ftp::list_ftp<br>
+<!-- -->Ftp::list_ftp_with_disk<br>
+<!-- -->Ftp::list_sessions<br>
+<!-- -->Ftp::passwd<br>
+<!-- -->Ftp::server_name<br>
+<!-- -->Ftp::set_anonymous_ftp<br>
+<!-- -->Ftp::set_anonymous_ftp_incoming<br>
+<!-- -->Ftp::set_homedir<br>
+<!-- -->Ftp::set_quota<br>
+<!-- -->Ftp::set_welcome_message<br>
+<!-- -->GPG::delete_keypair<br>
+<!-- -->GPG::export_public_key<br>
+<!-- -->GPG::export_secret_key<br>
+<!-- -->GPG::generate_key<br>
+<!-- -->GPG::import_key<br>
+<!-- -->GPG::list_public_keys<br>
+<!-- -->GPG::list_secret_keys<br>
+<!-- -->ImageManager::convert_file<br>
+<!-- -->ImageManager::create_thumbnails<br>
+<!-- -->ImageManager::get_dimensions<br>
+<!-- -->ImageManager::resize_image<br>
+<!-- -->Integration::fetch_url<br>
+<!-- -->JetBackup::addQueueDownload<br>
+<!-- -->JetBackup::addQueueRestore<br>
+<!-- -->JetBackup::addQueueSnapshot<br>
+<!-- -->JetBackup::decode_base64<br>
+<!-- -->JetBackup::deleteDownload<br>
+<!-- -->JetBackup::encode_base64<br>
+<!-- -->JetBackup::fileManager<br>
+<!-- -->JetBackup::getAccountDetails<br>
+<!-- -->JetBackup::getBackupDownloads<br>
+<!-- -->JetBackup::getConfigurations<br>
+<!-- -->JetBackup::getDownload<br>
+<!-- -->JetBackup::getGDPR<br>
+<!-- -->JetBackup::getInfo<br>
+<!-- -->JetBackup::listBackups<br>
+<!-- -->JetBackup::listDownloads<br>
+<!-- -->JetBackup::listPermissions<br>
+<!-- -->JetBackup::listQueueItems<br>
+<!-- -->JetBackup::manageAccount<br>
+<!-- -->JetBackup::manageBackup<br>
+<!-- -->JetBackup::manageGDPR<br>
+<!-- -->JetBackup::unserialize<br>
+<!-- -->JetBackup::uri_escape<br>
+<!-- -->JetBackup::uri_escape_utf8<br>
+<!-- -->JetBackup::uri_unescape<br>
+<!-- -->KnownHosts::create<br>
+<!-- -->KnownHosts::delete<br>
+<!-- -->KnownHosts::update<br>
+<!-- -->KnownHosts::verify<br>
+<!-- -->LangPHP::php_get_domain_handler<br>
+<!-- -->LangPHP::php_get_impacted_domains<br>
+<!-- -->LangPHP::php_get_installed_versions<br>
+<!-- -->LangPHP::php_get_system_default_version<br>
+<!-- -->LangPHP::php_get_vhost_versions<br>
+<!-- -->LangPHP::php_ini_get_user_basic_directives<br>
+<!-- -->LangPHP::php_ini_get_user_content<br>
+<!-- -->LangPHP::php_ini_get_user_paths<br>
+<!-- -->LangPHP::php_ini_set_user_basic_directives<br>
+<!-- -->LangPHP::php_ini_set_user_content<br>
+<!-- -->LangPHP::php_set_vhost_versions<br>
+<!-- -->LastLogin::get_last_or_current_logged_in_ip<br>
+<!-- -->Locale::get_attributes<br>
+<!-- -->Locale::list_locales<br>
+<!-- -->Locale::set_locale<br>
+<!-- -->LogManager::get_settings<br>
+<!-- -->LogManager::list_archives<br>
+<!-- -->LogManager::set_settings<br>
+<!-- -->Mailboxes::expunge_mailbox_messages<br>
+<!-- -->Mailboxes::expunge_messages_for_mailbox_guid<br>
+<!-- -->Mailboxes::get_mailbox_status_list<br>
+<!-- -->Mailboxes::has_utf8_mailbox_names<br>
+<!-- -->Mailboxes::set_utf8_mailbox_names<br>
+<!-- -->Market::cancel_pending_ssl_certificate<br>
+<!-- -->Market::create_shopping_cart<br>
+<!-- -->Market::create_shopping_cart_non_ssl<br>
+<!-- -->Market::get_all_products<br>
+<!-- -->Market::get_build_cart_url<br>
+<!-- -->Market::get_certificate_status_details<br>
+<!-- -->Market::get_completion_url<br>
+<!-- -->Market::get_license_info<br>
+<!-- -->Market::get_login_url<br>
+<!-- -->Market::get_pending_ssl_certificates<br>
+<!-- -->Market::get_product_info<br>
+<!-- -->Market::get_provider_specific_dcv_constraints<br>
+<!-- -->Market::get_providers_list<br>
+<!-- -->Market::get_ssl_certificate_if_available<br>
+<!-- -->Market::process_ssl_pending_queue<br>
+<!-- -->Market::request_ssl_certificates<br>
+<!-- -->Market::set_status_of_pending_queue_items<br>
+<!-- -->Market::set_url_after_checkout<br>
+<!-- -->Market::validate_login_token<br>
+<!-- -->Mime::add_handler<br>
+<!-- -->Mime::add_hotlink<br>
+<!-- -->Mime::add_mime<br>
+<!-- -->Mime::add_redirect<br>
+<!-- -->Mime::delete_handler<br>
+<!-- -->Mime::delete_hotlink<br>
+<!-- -->Mime::delete_mime<br>
+<!-- -->Mime::delete_redirect<br>
+<!-- -->Mime::get_redirect<br>
+<!-- -->Mime::list_handlers<br>
+<!-- -->Mime::list_hotlinks<br>
+<!-- -->Mime::list_mime<br>
+<!-- -->Mime::list_redirects<br>
+<!-- -->Mime::redirect_info<br>
+<!-- -->ModSecurity::disable_all_domains<br>
+<!-- -->ModSecurity::disable_domains<br>
+<!-- -->ModSecurity::enable_all_domains<br>
+<!-- -->ModSecurity::enable_domains<br>
+<!-- -->ModSecurity::has_modsecurity_installed<br>
+<!-- -->ModSecurity::list_domains<br>
+<!-- -->Monitoring::create_contact<br>
+<!-- -->Monitoring::create_site_monitor<br>
+<!-- -->Monitoring::create_site_monitor_shopping_cart<br>
+<!-- -->Monitoring::get_all_site_monitors<br>
+<!-- -->Monitoring::get_build_cart_url<br>
+<!-- -->Monitoring::get_completion_url<br>
+<!-- -->Monitoring::get_contact<br>
+<!-- -->Monitoring::get_site_monitor<br>
+<!-- -->Monitoring::get_store_email_address<br>
+<!-- -->Monitoring::get_user_status_from_store<br>
+<!-- -->Monitoring::list_contacts<br>
+<!-- -->Monitoring::load_user<br>
+<!-- -->Monitoring::remove_contact<br>
+<!-- -->Monitoring::remove_site_monitor<br>
+<!-- -->Monitoring::remove_user<br>
+<!-- -->Monitoring::save_user<br>
+<!-- -->Monitoring::update_contact<br>
+<!-- -->Mysql::add_host<br>
+<!-- -->Mysql::add_host_note<br>
+<!-- -->Mysql::check_database<br>
+<!-- -->Mysql::create_database<br>
+<!-- -->Mysql::create_user<br>
+<!-- -->Mysql::delete_database<br>
+<!-- -->Mysql::delete_host<br>
+<!-- -->Mysql::delete_user<br>
+<!-- -->Mysql::dump_database_schema<br>
+<!-- -->Mysql::get_host_notes<br>
+<!-- -->Mysql::get_privileges_on_database<br>
+<!-- -->Mysql::get_restrictions<br>
+<!-- -->Mysql::get_server_information<br>
+<!-- -->Mysql::list_databases<br>
+<!-- -->Mysql::list_routines<br>
+<!-- -->Mysql::list_users<br>
+<!-- -->Mysql::locate_server<br>
+<!-- -->Mysql::rename_database<br>
+<!-- -->Mysql::rename_user<br>
+<!-- -->Mysql::repair_database<br>
+<!-- -->Mysql::revoke_access_to_database<br>
+<!-- -->Mysql::set_password<br>
+<!-- -->Mysql::set_privileges_on_database<br>
+<!-- -->Mysql::update_privileges<br>
+<!-- -->NVData::get<br>
+<!-- -->NVData::set<br>
+<!-- -->NginxCaching::clear_cache<br>
+<!-- -->NginxCaching::disable_cache<br>
+<!-- -->NginxCaching::enable_cache<br>
+<!-- -->NginxCaching::reset_cache_config<br>
+<!-- -->Notifications::get_notifications_count<br>
+<!-- -->Parser::firstfile_relative_uri<br>
+<!-- -->PassengerApps::disable_application<br>
+<!-- -->PassengerApps::edit_application<br>
+<!-- -->PassengerApps::enable_application<br>
+<!-- -->PassengerApps::ensure_deps<br>
+<!-- -->PassengerApps::list_applications<br>
+<!-- -->PassengerApps::register_application<br>
+<!-- -->PassengerApps::unregister_application<br>
+<!-- -->PasswdStrength::get_required_strength<br>
+<!-- -->Personalization::get<br>
+<!-- -->Personalization::set<br>
+<!-- -->Plugins::get_uuid<br>
+<!-- -->Plugins::reset_uuid<br>
+<!-- -->Postgresql::create_database<br>
+<!-- -->Postgresql::create_user<br>
+<!-- -->Postgresql::delete_database<br>
+<!-- -->Postgresql::delete_user<br>
+<!-- -->Postgresql::get_restrictions<br>
+<!-- -->Postgresql::grant_all_privileges<br>
+<!-- -->Postgresql::list_databases<br>
+<!-- -->Postgresql::list_users<br>
+<!-- -->Postgresql::rename_database<br>
+<!-- -->Postgresql::rename_user<br>
+<!-- -->Postgresql::rename_user_no_password<br>
+<!-- -->Postgresql::revoke_all_privileges<br>
+<!-- -->Postgresql::set_password<br>
+<!-- -->Postgresql::update_privileges<br>
+<!-- -->Pushbullet::send_test_message<br>
+<!-- -->Quota::get_local_quota_info<br>
+<!-- -->Quota::get_quota_info<br>
+<!-- -->Resellers::list_accounts<br>
+<!-- -->ResourceUsage::get_usages<br>
+<!-- -->Restore::directory_listing<br>
+<!-- -->Restore::get_users<br>
+<!-- -->Restore::query_file_info<br>
+<!-- -->Restore::restore_file<br>
+<!-- -->SSH::get_port<br>
+<!-- -->SSL::add_autossl_excluded_domains<br>
+<!-- -->SSL::can_ssl_redirect<br>
+<!-- -->SSL::delete_cert<br>
+<!-- -->SSL::delete_csr<br>
+<!-- -->SSL::delete_key<br>
+<!-- -->SSL::delete_ssl<br>
+<!-- -->SSL::disable_mail_sni<br>
+<!-- -->SSL::enable_mail_sni<br>
+<!-- -->SSL::fetch_best_for_domain<br>
+<!-- -->SSL::fetch_cert_info<br>
+<!-- -->SSL::fetch_certificates_for_fqdns<br>
+<!-- -->SSL::fetch_key_and_cabundle_for_certificate<br>
+<!-- -->SSL::find_certificates_for_key<br>
+<!-- -->SSL::find_csrs_for_key<br>
+<!-- -->SSL::generate_cert<br>
+<!-- -->SSL::generate_csr<br>
+<!-- -->SSL::generate_key<br>
+<!-- -->SSL::get_autossl_excluded_domains<br>
+<!-- -->SSL::get_autossl_pending_queue<br>
+<!-- -->SSL::get_autossl_problems<br>
+<!-- -->SSL::get_cabundle<br>
+<!-- -->SSL::get_cn_name<br>
+<!-- -->SSL::install_ssl<br>
+<!-- -->SSL::installed_host<br>
+<!-- -->SSL::installed_hosts<br>
+<!-- -->SSL::is_autossl_check_in_progress<br>
+<!-- -->SSL::is_mail_sni_supported<br>
+<!-- -->SSL::is_sni_supported<br>
+<!-- -->SSL::list_certs<br>
+<!-- -->SSL::list_csrs<br>
+<!-- -->SSL::list_keys<br>
+<!-- -->SSL::list_ssl_items<br>
+<!-- -->SSL::mail_sni_status<br>
+<!-- -->SSL::rebuild_mail_sni_config<br>
+<!-- -->SSL::rebuildssldb<br>
+<!-- -->SSL::remove_autossl_excluded_domains<br>
+<!-- -->SSL::set_autossl_excluded_domains<br>
+<!-- -->SSL::set_cert_friendly_name<br>
+<!-- -->SSL::set_csr_friendly_name<br>
+<!-- -->SSL::set_default_key_type<br>
+<!-- -->SSL::set_key_friendly_name<br>
+<!-- -->SSL::set_primary_ssl<br>
+<!-- -->SSL::show_cert<br>
+<!-- -->SSL::show_csr<br>
+<!-- -->SSL::show_key<br>
+<!-- -->SSL::start_autossl_check<br>
+<!-- -->SSL::toggle_ssl_redirect_for_domains<br>
+<!-- -->SSL::upload_cert<br>
+<!-- -->SSL::upload_key<br>
+<!-- -->ServerInformation::get_information<br>
+<!-- -->ServiceProxy::get_service_proxy_backends<br>
+<!-- -->ServiceProxy::set_service_proxy_backends<br>
+<!-- -->ServiceProxy::unset_all_service_proxy_backends<br>
+<!-- -->Session::create_temp_user<br>
+<!-- -->Session::create_webmail_session_for_mail_user<br>
+<!-- -->Session::create_webmail_session_for_mail_user_check_password<br>
+<!-- -->Session::create_webmail_session_for_self<br>
+<!-- -->SiteQuality::create_project<br>
+<!-- -->SiteQuality::create_site_quality_user<br>
+<!-- -->SiteQuality::delete_site_quality_user<br>
+<!-- -->SiteQuality::get_all_scores<br>
+<!-- -->SiteQuality::get_app_token<br>
+<!-- -->SiteQuality::get_environment<br>
+<!-- -->SiteQuality::has_site_quality_user<br>
+<!-- -->SiteQuality::is_site_quality_user_enabled<br>
+<!-- -->SiteQuality::reset_config<br>
+<!-- -->SiteQuality::send_activation_email<br>
+<!-- -->SiteQuality::verify_code<br>
+<!-- -->SiteTemplates::list_site_templates<br>
+<!-- -->SiteTemplates::list_user_settings<br>
+<!-- -->SiteTemplates::publish<br>
+<!-- -->Sitejet::add_api_token<br>
+<!-- -->Sitejet::create_account<br>
+<!-- -->Sitejet::create_restore_point<br>
+<!-- -->Sitejet::create_website<br>
+<!-- -->Sitejet::disk_quota_check<br>
+<!-- -->Sitejet::do_not_delete_list<br>
+<!-- -->Sitejet::get_all_sites_metadata<br>
+<!-- -->Sitejet::get_all_user_sitejet_info<br>
+<!-- -->Sitejet::get_api_token<br>
+<!-- -->Sitejet::get_preview_url<br>
+<!-- -->Sitejet::get_sitebuilder_domain_statuses<br>
+<!-- -->Sitejet::get_sso_link<br>
+<!-- -->Sitejet::get_templates<br>
+<!-- -->Sitejet::get_user_site_metadata<br>
+<!-- -->Sitejet::poll_publish<br>
+<!-- -->Sitejet::publish<br>
+<!-- -->Sitejet::restore_document_root<br>
+<!-- -->Sitejet::set_template<br>
+<!-- -->Sitejet::start_publish<br>
+<!-- -->SpamAssassin::clear_spam_box<br>
+<!-- -->SpamAssassin::get_symbolic_test_names<br>
+<!-- -->SpamAssassin::get_user_preferences<br>
+<!-- -->SpamAssassin::update_user_preference<br>
+<!-- -->Stats::get_bandwidth<br>
+<!-- -->Stats::get_site_errors<br>
+<!-- -->Stats::list_sites<br>
+<!-- -->Stats::list_stats_by_domain<br>
+<!-- -->StatsBar::get_stats<br>
+<!-- -->StatsManager::get_configuration<br>
+<!-- -->StatsManager::save_configuration<br>
+<!-- -->SubDomain::addsubdomain<br>
+<!-- -->Team::add_roles<br>
+<!-- -->Team::add_team_user<br>
+<!-- -->Team::edit_team_user<br>
+<!-- -->Team::list_team<br>
+<!-- -->Team::list_team_ui<br>
+<!-- -->Team::remove_roles<br>
+<!-- -->Team::remove_team_user<br>
+<!-- -->Team::set_contact_email<br>
+<!-- -->Team::set_notes<br>
+<!-- -->Team::set_password<br>
+<!-- -->Team::set_roles<br>
+<!-- -->Team::suspend_team_user<br>
+<!-- -->Team::unsuspend_team_user<br>
+<!-- -->TeamRoles::list_feature_descriptions<br>
+<!-- -->Themes::get_theme_base<br>
+<!-- -->Themes::list<br>
+<!-- -->Themes::update<br>
+<!-- -->Tokens::create_full_access<br>
+<!-- -->Tokens::list<br>
+<!-- -->Tokens::rename<br>
+<!-- -->Tokens::revoke<br>
+<!-- -->TwoFactorAuth::generate_user_configuration<br>
+<!-- -->TwoFactorAuth::get_team_user_configuration<br>
+<!-- -->TwoFactorAuth::get_user_configuration<br>
+<!-- -->TwoFactorAuth::remove_user_configuration<br>
+<!-- -->TwoFactorAuth::set_user_configuration<br>
+<!-- -->UserManager::check_account_conflicts<br>
+<!-- -->UserManager::create_user<br>
+<!-- -->UserManager::delete_user<br>
+<!-- -->UserManager::dismiss_merge<br>
+<!-- -->UserManager::edit_user<br>
+<!-- -->UserManager::list_users<br>
+<!-- -->UserManager::lookup_service_account<br>
+<!-- -->UserManager::lookup_user<br>
+<!-- -->UserManager::merge_service_account<br>
+<!-- -->UserManager::unlink_service_account<br>
+<!-- -->UserTasks::delete<br>
+<!-- -->UserTasks::retrieve<br>
+<!-- -->Variables::get_server_information<br>
+<!-- -->Variables::get_session_information<br>
+<!-- -->Variables::get_user_information<br>
+<!-- -->VersionControl::create<br>
+<!-- -->VersionControl::delete<br>
+<!-- -->VersionControl::retrieve<br>
+<!-- -->VersionControl::update<br>
+<!-- -->VersionControlDeployment::create<br>
+<!-- -->VersionControlDeployment::delete<br>
+<!-- -->VersionControlDeployment::retrieve<br>
+<!-- -->WebDisk::delete_user<br>
+<!-- -->WebDisk::set_homedir<br>
+<!-- -->WebDisk::set_password<br>
+<!-- -->WebDisk::set_permissions<br>
+<!-- -->WebVhosts::list_domains<br>
+<!-- -->WebVhosts::list_ssl_capable_domains<br>
+<!-- -->WebmailApps::list_webmail_apps<br>
+<!-- -->WordPressBackup::any_running<br>
+<!-- -->WordPressBackup::cancel<br>
+<!-- -->WordPressBackup::cleanup<br>
+<!-- -->WordPressBackup::get_available_backups<br>
+<!-- -->WordPressBackup::is_running<br>
+<!-- -->WordPressBackup::start<br>
+<!-- -->WordPressInstanceManager::cancel_scan<br>
+<!-- -->WordPressInstanceManager::change_db_password<br>
+<!-- -->WordPressInstanceManager::change_user_password<br>
+<!-- -->WordPressInstanceManager::check_is_running<br>
+<!-- -->WordPressInstanceManager::cleanup_scan<br>
+<!-- -->WordPressInstanceManager::configure_autoupdate<br>
+<!-- -->WordPressInstanceManager::get_api_version<br>
+<!-- -->WordPressInstanceManager::get_instance_by_id<br>
+<!-- -->WordPressInstanceManager::get_instances<br>
+<!-- -->WordPressInstanceManager::get_latest_wordpress_version_from_wordpress_org<br>
+<!-- -->WordPressInstanceManager::get_scan_results<br>
+<!-- -->WordPressInstanceManager::is_installable_addon_available<br>
+<!-- -->WordPressInstanceManager::start_scan<br>
+<!-- -->WordPressManagerDeprecation::is_wptk_installed<br>
+<!-- -->WordPressManagerDeprecation::is_wptk_supported<br>
+<!-- -->WordPressRestore::any_running<br>
+<!-- -->WordPressRestore::cleanup<br>
+<!-- -->WordPressRestore::start<br>
+<!-- -->WordPressSite::create<br>
+<!-- -->WordPressSite::retrieve<br>
+<!-- -->cPAddons::get_available_addons<br>
+<!-- -->cPAddons::get_instance_settings<br>
+<!-- -->cPAddons::list_addon_instances<br>
+<!-- -->cPGreyList::disable_all_domains<br>
+<!-- -->cPGreyList::disable_domains<br>
+<!-- -->cPGreyList::enable_all_domains<br>
+<!-- -->cPGreyList::enable_domains<br>
+<!-- -->cPGreyList::has_greylisting_enabled<br>
+<!-- -->cPGreyList::list_domains</p></div></div></details></div><footer class="docusaurus-mt-lg"><div class="row margin-top--sm theme-blog-footer-edit-meta-row"><div class="col"><b>Tags :</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a title="hebergement tag description" class="tag_zVej tagRegular_sFm0" href="/fr/blog/tags/hebergement">hebergement</a></li><li class="tag_QGVx"><a title="cpanel tag description" class="tag_zVej tagRegular_sFm0" href="/fr/blog/tags/cpanel">cpanel</a></li><li class="tag_QGVx"><a title="symfony tag description" class="tag_zVej tagRegular_sFm0" href="/fr/blog/tags/symfony">symfony</a></li></ul></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Pagination des articles du blog"><a class="pagination-nav__link pagination-nav__link--next" href="/fr/blog/upload-de-fichier-public-ou-non-public-symfony"><div class="pagination-nav__sublabel">Article plus ancien</div><div class="pagination-nav__label">Upload de fichier - Public ou non public sur Symfony ?</div></a></nav></main><div class="col col--2"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#est-il-possible-de-créer-un-sous-domaine-directement-depuis-une-application-phpsymfony-sans-laccès-root-au-serveur-"><em><strong>Est-il possible de créer un sous-domaine directement depuis une application PHP/Symfony sans l&#39;accès Root au serveur ?</strong></em></a></li><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#création-dun-sous-domaine"><em><strong>Création d&#39;un sous-domaine</strong></em></a></li><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#comment-tout-ça-fonctionne-"><em><strong>Comment tout ça fonctionne ?</strong></em></a></li><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#clonage-du-repository-git--installation-des-dépendances-staging"><em><strong>Clonage du repository Git + Installation des dépendances (Staging)</strong></em></a></li><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#et-pour-le-cms-"><em><strong>Et pour le CMS ?</strong></em></a></li><li><a class="table-of-contents__link toc-highlight" href="/fr/blog/une-api-cpanel-utilisable-meme-en-acces-user#les-actions-de-lapi-executable-en-terminal-en-cadeau">Les actions de l&#39;api executable en Terminal en cadeau</a></li></ul></div></div></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Lien</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/fr/blog/une-intro">Blog</a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Rayen Boumaza, Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
