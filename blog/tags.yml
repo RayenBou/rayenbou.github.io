@@ -1,0 +1,16 @@
+symfony:
+  label: symfony
+  permalink: /symfony
+  description: symfony tag description
+security:
+  label: security
+  permalink: /security
+  description: security tag description
+docusaurus:
+  label: Docusaurus
+  permalink: /docusaurus
+  description: Docusaurus tag description
+hola:
+  label: Hola
+  permalink: /hola
+  description: Hola tag description
