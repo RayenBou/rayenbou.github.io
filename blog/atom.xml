@@ -23,12 +23,12 @@
         <category label="intro" term="intro"/>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Public ou non public sur Symfony ?]]></title>
-        <id>https://rayenbou.github.io/blog/public-ou-non-public-symfony</id>
-        <link href="https://rayenbou.github.io/blog/public-ou-non-public-symfony"/>
+        <title type="html"><![CDATA[Upload de fichier-Public ou non public sur Symfony ? ?]]></title>
+        <id>https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony</id>
+        <link href="https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony"/>
         <updated>2024-07-10T14:11:50.000Z</updated>
         <summary type="html"><![CDATA[Pourquoi ce questionnement ?]]></summary>
-        <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="pourquoi-ce-questionnement-"><em><strong>Pourquoi ce questionnement ?</strong></em><a class="hash-link" aria-label="Direct link to pourquoi-ce-questionnement-" title="Direct link to pourquoi-ce-questionnement-" href="https://rayenbou.github.io/blog/public-ou-non-public-symfony#pourquoi-ce-questionnement-">​</a></h2>
+        <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="pourquoi-ce-questionnement-"><em><strong>Pourquoi ce questionnement ?</strong></em><a class="hash-link" aria-label="Direct link to pourquoi-ce-questionnement-" title="Direct link to pourquoi-ce-questionnement-" href="https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony#pourquoi-ce-questionnement-">​</a></h2>
 <p>J'ai été confronté à une problématique assez particulière concernant l'upload de fichiers sur Symfony il y a 6 mois de cela.</p>
 <p>Durant mon apprentissage, il m'avait été dit, par un développeur senior, que l'upload de fichiers sur Symfony était soit dans le dossier public, soit dans le dossier var.</p>
 <p>Pour le contexte : à plusieurs reprises, sur des projets clients assez simples, je leur fournis un formulaire pour uploader des images, PDF, Word, etc.</p>
@@ -45,7 +45,7 @@
 <p><a href="https://symfonycasts.com/screencast/symfony-uploads/upload-in-form" target="_blank" rel="noopener noreferrer">Upload in Form</a></p>
 <div class="language-php codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-php codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/** @var UploadedFile $uploadedFile */</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$uploadedFile = $form['imageFile']-&gt;getData();</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">$destination = $this-&gt;getParameter('kernel.project_dir').'/public/uploads/article_image';</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <p><em>Encore dans le dossier public ?</em></p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="boh-ça-ne-doit-pas-etre-si-terrible-si-"><em><strong>Boh ça ne doit pas etre si terrible, si ?</strong></em><a class="hash-link" aria-label="Direct link to boh-ça-ne-doit-pas-etre-si-terrible-si-" title="Direct link to boh-ça-ne-doit-pas-etre-si-terrible-si-" href="https://rayenbou.github.io/blog/public-ou-non-public-symfony#boh-%C3%A7a-ne-doit-pas-etre-si-terrible-si-">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="boh-ça-ne-doit-pas-etre-si-terrible-si-"><em><strong>Boh ça ne doit pas etre si terrible, si ?</strong></em><a class="hash-link" aria-label="Direct link to boh-ça-ne-doit-pas-etre-si-terrible-si-" title="Direct link to boh-ça-ne-doit-pas-etre-si-terrible-si-" href="https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony#boh-%C3%A7a-ne-doit-pas-etre-si-terrible-si-">​</a></h2>
 <ul>
 <li>
 <p>Postulat :<br>
@@ -70,7 +70,7 @@
 <p>D'autres articles trouvés confirment la reflexion:</p>
 <p><a href="https://www.quora.com/Why-is-putting-the-image-folder-in-the-public-directory-of-a-web-server-not-secure-The-front-controller-should-already-take-care-of-public-folder-security" target="_blank" rel="noopener noreferrer">Why is putting the image folder in the public directory of a web server not secure?</a></p>
 <p><a href="https://forums.meteor.com/t/why-shouldnt-i-upload-files-in-the-public-directory/36899/3" target="_blank" rel="noopener noreferrer">Why shouldn’t I upload files in the public directory?</a></p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="quel-est-la-solution-"><em><strong>Quel est la solution ?</strong></em><a class="hash-link" aria-label="Direct link to quel-est-la-solution-" title="Direct link to quel-est-la-solution-" href="https://rayenbou.github.io/blog/public-ou-non-public-symfony#quel-est-la-solution-">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="quel-est-la-solution-"><em><strong>Quel est la solution ?</strong></em><a class="hash-link" aria-label="Direct link to quel-est-la-solution-" title="Direct link to quel-est-la-solution-" href="https://rayenbou.github.io/blog/upload-de-fichier-public-ou-non-public-symfony#quel-est-la-solution-">​</a></h2>
 <p>Comment est-il donc possible de servir les ressources sans pour autant compromettre la securité, tout en ayant un impact minimum sur la modification de la codebase ?</p>
 <p>Tout n'est pas à jeter evidemment. La methode <code>asset()</code> de twig permet d'acceder au dossier <code>/public</code> qui ne sert <strong>QUE</strong> les ressources statiques du site.
 Pour le reste , ca ira dans le dossier <code>/var</code> !</p>
