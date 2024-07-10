@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Posts","items":[{"title":"Une intro","permalink":"/blog/Une-intro","unlisted":false},{"title":"Public ou non public sur Symfony ?","permalink":"/blog/public-ou-non-public-symfony","unlisted":false}]}')}}]);
