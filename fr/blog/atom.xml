@@ -20,8 +20,7 @@
 <li>Montrer aux clients l'avancement de leurs projets de manière rapide tout en restant sur mon hébergement.</li>
 <li>Par flemme de passer à chaque fois par un terminal (j'aimerais tout faire en un clic).</li>
 <li>Créer un système de blog gratuit format CMS dont la mise en production est entièrement automatisée par la suite.
-<br>
-<!-- -->\</li>
+\</li>
 </ul>
 <p>La contrainte principale a été de ne pas céder à la facilité car une fonctionnalité comme celle-ci est bien plus facile sur un serveur privé que sur un mutualisé sans accès root.
 <br>
@@ -730,10 +729,11 @@ le fait que ce système se trouve sur un hébergement mutualisé rend le cloison
         <updated>2024-07-09T13:31:15.413Z</updated>
         <summary type="html"><![CDATA[Pourquoi ce questionnement ?]]></summary>
         <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="pourquoi-ce-questionnement-"><em><strong>Pourquoi ce questionnement ?</strong></em><a class="hash-link" aria-label="Lien direct vers pourquoi-ce-questionnement-" title="Lien direct vers pourquoi-ce-questionnement-" href="https://rayenbou.github.io/fr/blog/upload-de-fichier-public-ou-non-public-symfony#pourquoi-ce-questionnement-">​</a></h2>
-<p>J'ai été confronté à une problématique assez particulière concernant l'upload de fichiers sur Symfony il y a 6 mois de cela.</p>
-<p>Durant mon apprentissage, il m'avait été dit, par un développeur senior, que l'upload de fichiers sur Symfony était soit dans le dossier public, soit dans le dossier var.</p>
-<p>Pour le contexte : à plusieurs reprises, sur des projets clients assez simples, je leur fournis un formulaire pour uploader des images, PDF, Word, etc.</p>
-<p>J'avais beau retourner la documentation de Symfony ou des bundles, je ne comprenais pas d'où venait le <code>var/</code> dont on me parlait et quelle utilité cela pouvait avoir.</p>
+<p>J'ai été confronté à une problématique assez particulière concernant l'upload de fichiers sur Symfony.</p>
+<p>Durant mon apprentissage, il m'avait été dit il y à fort longtemps, par un développeur senior, que l'upload de fichiers sur Symfony était soit dans le dossier public, soit dans le dossier var.</p>
+<p>Je n'avais pas attention à ce détail jusqu'à il y à 6 mois de celà.</p>
+<p>Pour le contexte : à plusieurs reprises, sur des projets clients assez simples, je leurs ai fournis un formulaire pour uploader des images, PDF, Word, etc. et me suis rendu compte du manque de securité d'un upload dans le dossier <code>/public</code>.</p>
+<p>J'avais beau retourner la documentation de Symfony ou des bundles, je ne comprenais pas d'où venait le <code>var/</code> dont on m'avait parlé et quelle utilité cela pouvait avoir.</p>
 <p><a href="https://symfony.com/doc/current/controller/upload_file.html" target="_blank" rel="noopener noreferrer">How to upload a file</a>.</p>
 <div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic"># config/services.yaml</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token comment" style="color:#999988;font-style:italic"># ...</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">parameters</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">brochures_directory</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'%kernel.project_dir%/public/uploads/brochures'</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copier le code" title="Copier" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
 <p><em>Dans le dossier public.</em></p>
