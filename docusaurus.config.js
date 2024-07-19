@@ -13,7 +13,7 @@ const config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://github.com/RayenBou/rayenbou.github.io",
+  url: "https://rayenbou.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -24,7 +24,7 @@ const config = {
   projectName: "rayenbou.github.io", // Usually your repo name.
 
   onBrokenAnchors: "throw",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   onDuplicateRoutes: "throw",
 
@@ -32,8 +32,8 @@ const config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "fr",
-    locales: ["fr", "en"],
+    defaultLocale: "en",
+    locales: ["en", "fr"],
   },
 
   presets: [
@@ -92,6 +92,11 @@ const config = {
           //   label: "Tutorial",
           // },
           { to: "/blog", label: "Blog", position: "left" },
+          {
+            href: "https://www.linkedin.com/in/rayen-boumaza/",
+            label: "LinkedIn",
+            position: "right",
+          },
           {
             href: "https://github.com/RayenBou",
             label: "GitHub",

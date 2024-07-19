@@ -6,11 +6,27 @@ security:
   label: security
   permalink: /security
   description: security tag description
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+hebergement:
+  label: hebergement
+  permalink: /hebergement
+  description: hebergement tag description
+cpanel:
+  label: cpanel
+  permalink: /cpanel
+  description: cpanel tag description
+component:
+  label: component
+  permalink: /component
+  description: component tag description
+Code Quality:
+  label: Code Quality
+  permalink: /code-quality
+  description: Code Quality tag description
+Codings Standards:
+  label: Codings Standards
+  permalink: /codings-standards
+  description: Codings Standards tag description
+Architecture:
+  label: Architecture
+  permalink: /architecture
+  description: Architecture tag description

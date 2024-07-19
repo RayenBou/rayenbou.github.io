@@ -1,18 +1,20 @@
 ---
-slug: public-ou-non-public-symfony
-title: Public ou non public sur Symfony ?
+slug: upload-de-fichier-public-ou-non-public-symfony
+title: Upload de fichier - Public ou non public sur Symfony ?
 authors: rayen
-tags: [symfony,security]
+tags: [symfony,security,component]
 ---
 ## ***Pourquoi ce questionnement ?***
 
-J'ai été confronté à une problématique assez particulière concernant l'upload de fichiers sur Symfony il y a 6 mois de cela.
+J'ai été confronté à une problématique assez particulière concernant l'upload de fichiers sur Symfony.
 
-Durant mon apprentissage, il m'avait été dit, par un développeur senior, que l'upload de fichiers sur Symfony était soit dans le dossier public, soit dans le dossier var.
+Durant mon apprentissage, il m'avait été dit il y à fort longtemps, par un développeur senior, que l'upload de fichiers sur Symfony était soit dans le dossier public, soit dans le dossier var.
 
-Pour le contexte : à plusieurs reprises, sur des projets clients assez simples, je leur fournis un formulaire pour uploader des images, PDF, Word, etc.
+Je n'avais pas attention à ce détail jusqu'à il y à 6 mois de celà.
 
-J'avais beau retourner la documentation de Symfony ou des bundles, je ne comprenais pas d'où venait le `var/` dont on me parlait et quelle utilité cela pouvait avoir.
+Pour le contexte : à plusieurs reprises, sur des projets clients assez simples, je leurs ai fournis un formulaire pour uploader des images, PDF, Word, etc. et me suis rendu compte du manque de securité d'un upload dans le dossier `/public`.
+
+J'avais beau retourner la documentation de Symfony ou des bundles, je ne comprenais pas d'où venait le `var/` dont on m'avait parlé et quelle utilité cela pouvait avoir.
 
 [How to upload a file](https://symfony.com/doc/current/controller/upload_file.html).
 
@@ -24,7 +26,7 @@ parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/brochures'
 ```
 
-*Dans le dossier public*
+*Dans le dossier public.*
 
 ---------
 Celle de VichUploader
@@ -46,7 +48,7 @@ vich_uploader:
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 ```
 
-*Toujours dans le dossier public*
+*Toujours dans le dossier public.*
 
 ---------
 
@@ -114,17 +116,16 @@ parameters:
 ```php
 
 #[Route('/file/{folder}/{filename}', name: 'app_file', methods: ['GET'])]
-public function serveImage(string $folder, string $filename): BinaryFileResponse
+public function serveFile(string $folder, string $filename): Response
 {
-    $fileDir = $this->getParameter('var_file_dir') ?? null;
-    if (null === $fileDir) {
-        throw new \Exception('Parameter "var_file_dir" is not set.');
-    }
+    $baseDir = $this->getParameter('var_file_dir');
 
-    $filePath = $fileDir . $folder . '/' . $filename;
+    $filePath = realpath($baseDir . '/' . $folder . '/' . $filename);
+
     if (!file_exists($filePath)) {
         throw $this->createNotFoundException("the file does not exist.");
     }
+
     return new BinaryFileResponse($filePath);
 }
 ```
